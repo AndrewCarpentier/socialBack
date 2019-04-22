@@ -1,0 +1,14 @@
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.deps.json
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.runtimeconfig.json
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.runtimeconfig.dev.json
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.dll
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.csprojAssemblyReference.cache
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.csproj.CoreCompileInputs.cache
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.RazorAssemblyInfo.cache
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.RazorAssemblyInfo.cs
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.AssemblyInfoInputs.cache
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.AssemblyInfo.cs
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.RazorTargetAssemblyInfo.cache
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.pdb
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.dll
+C:\Users\Andrew\source\repos\SocialASPNET\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.pdb
