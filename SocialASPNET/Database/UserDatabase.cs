@@ -69,22 +69,25 @@ namespace SocialASPNET.Database
 
         public User Login(User user)
         {
-            SqlCommand command = new SqlCommand("SELECT id FROM users WHERE username=@username AND password=@password", 
-                Connection.Instance);
-            command.Parameters.Add(new SqlParameter("@username", SqlDbType.VarChar) { Value = user.Username });
-            command.Parameters.Add(new SqlParameter("@password", SqlDbType.VarChar) { Value = user.Password});
-            Connection.Instance.Open();
 
+            SqlCommand command = new SqlCommand(
+                "SELECT id, username FROM users WHERE email = @email AND password = @password"
+                , Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar) { Value = user.Email });
+            command.Parameters.Add(new SqlParameter("@password", SqlDbType.VarChar) { Value = user.Password });
+            Connection.Instance.Open();
             SqlDataReader reader = command.ExecuteReader();
 
             while (reader.Read())
             {
                 user.Id = reader.GetInt32(0);
+                user.Username = reader.GetString(1);
             }
 
             command.Dispose();
             reader.Close();
             Connection.Instance.Close();
+
             return user;
         }
     }

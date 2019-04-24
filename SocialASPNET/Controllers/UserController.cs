@@ -21,33 +21,21 @@ namespace SocialASPNET.Controllers
 
         [HttpPost][EnableCors("AllowMyOrigin")]
         [Route("register")]
-        public JsonResult register(User user)
+        public JsonResult Register(User user)
         {
             RegisterModelAndView result = new RegisterModelAndView();
             if (user.Email.Equals(""))
-            {
                 result.Errors.Add("email is null");
-            }
             if (user.Fullname.Equals(""))
-            {
                 result.Errors.Add("fullname is null");
-            }
             if (user.Username.Equals(""))
-            {
                 result.Errors.Add("username is null");
-            }
             if (user.Password.Equals(""))
-            {
                 result.Errors.Add("password is null");
-            }
             if (userDatabase.RegisterVerificationEmail(user.Email))
-            {
                 result.Errors.Add("this email is already used");
-            }
             if (userDatabase.RegisterVerificationUsername(user.Username))
-            {
                 result.Errors.Add("this username is already used");
-            }
 
             if(result.Errors.Count == 0)
             {
@@ -65,16 +53,36 @@ namespace SocialASPNET.Controllers
                 }
             }
             else
-            {
                 result.Message = "Register is not a success";
-            }
+
             return new JsonResult(result);
         }
 
-        //[HttpPost][EnableCors("AllowMyOrigin")]
-        //[Route("login")]
-        //public JsonResult login(User user)
-        //{
-        //}
+        [HttpPost][EnableCors("AllowMyOrigin")]
+        [Route("login")]
+        public JsonResult Login(User user)
+        {
+            LoginModelAndView result = new LoginModelAndView();
+            if (user.Email.Equals(""))
+                result.Errors.Add("Email is null");
+            if (user.Password.Equals(""))
+                result.Errors.Add("Password is null");
+
+            user.Password = passwordEncoder.Encode(user.Password);
+            user = userDatabase.Login(user);
+
+            if(user.Id != 0)
+            {
+                result.Id = user.Id;
+                result.Username = user.Username;
+                result.Success = true;
+            }
+            else
+            {
+                result.Success = false;
+            }
+
+            return new JsonResult(result);
+        }
     }
 }
