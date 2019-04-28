@@ -84,5 +84,16 @@ namespace SocialASPNET.Controllers
 
             return new JsonResult(result);
         }
+
+        [HttpGet][EnableCors("AllowMyOrigin")]
+        [Route("getusername")]
+        public JsonResult GetUsername(string username)
+        {
+            User user = new User();
+            user = userDatabase.GetUserByUsername(username);
+            user = userDatabase.GetUserSubscriber(user);
+            user = userDatabase.GetUserSubscriptions(user);
+            return new JsonResult(user);
+        }
     }
 }

@@ -90,5 +90,111 @@ namespace SocialASPNET.Database
 
             return user;
         }
+
+        public User GetUserByUsername(string username)
+        {
+            User user = new User() { Username = username };
+
+            SqlCommand command = new SqlCommand(
+                "SELECT id, description, url_image_profil FROM users WHERE username = @username", Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@username", SqlDbType.VarChar) { Value = username });
+            Connection.Instance.Open();
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                user.Id = reader.GetInt32(0);
+                if(!reader.IsDBNull(1))
+                    user.Description = reader.GetString(1);
+                if(!reader.IsDBNull(2))
+                    user.UrlImgProfil = reader.GetString(2);
+            }
+
+            command.Dispose();
+            reader.Close();
+            Connection.Instance.Close();
+            return user;
+        }
+
+        public User GetUserById(int id)
+        {
+            User user = new User();
+            SqlCommand command = new SqlCommand(
+                "SELECT username, url_image FROM users WHERE id = @id", Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = id });
+            Connection.Instance.Open();
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                user.Username = reader.GetString(0);
+                user.UrlImgProfil = reader.GetString(1);
+            }
+
+            command.Dispose();
+            reader.Close();
+            Connection.Instance.Close();
+            return user;
+        }
+
+        public User GetUserSubscriber(User user)
+        {
+            SqlCommand command = new SqlCommand(
+                "SELECT * FROM abonnement WHERE id_abonnement = @id ", Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = user.Id });
+            Connection.Instance.Open();
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                user.Subcribers.Add(GetUserById(reader.GetInt32(0)));
+            }
+
+            command.Dispose();
+            reader.Close();
+            Connection.Instance.Close();
+            return user;
+        }
+
+        public User GetUserSubscriptions(User user)
+        {
+            SqlCommand command = new SqlCommand(
+                "SELECT * FROM abonnement WHERE id_abonne = @id ", Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = user.Id });
+            Connection.Instance.Open();
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                user.Subscriptions.Add(GetUserById(reader.GetInt32(1)));
+            }
+
+            command.Dispose();
+            reader.Close();
+            Connection.Instance.Close();
+            return user;
+        }
+
+        public User GetUserPost(User user)
+        {
+            SqlCommand command = new SqlCommand(
+                "SELECT * FROM post WHERE id_user = @id ", Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = user.Id });
+            Connection.Instance.Open();
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Post p = new Post();
+                p.Description = reader.GetString(1);
+                p.Date = reader.GetDateTime(2);
+                user.Posts.Add(p);
+            }
+
+            command.Dispose();
+            reader.Close();
+            Connection.Instance.Close();
+            return user;
+        }
     }
 }

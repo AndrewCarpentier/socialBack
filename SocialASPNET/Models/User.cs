@@ -32,5 +32,12 @@ namespace SocialASPNET.Models
         public List<Post> Posts { get => posts; set => posts = value; }
         public List<User> Subcribers { get => subcribers; set => subcribers = value; }
         public List<User> Subscriptions { get => subscriptions; set => subscriptions = value; }
+
+        public User()
+        {
+            posts = new List<Post>();
+            subcribers = new List<User>();
+            subscriptions = new List<User>();
+        }
     }
 }
