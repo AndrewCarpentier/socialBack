@@ -95,5 +95,12 @@ namespace SocialASPNET.Controllers
             user = userDatabase.GetUserSubscriptions(user);
             return new JsonResult(user);
         }
+
+        [HttpPost][EnableCors("AllowMyOrigin")]
+        [Route("upload")]
+        public JsonResult Upload(IFormFile[] files)
+        {
+            return new JsonResult("test");
+        }
     }
 }

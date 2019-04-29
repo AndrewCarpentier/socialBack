@@ -2,15 +2,6 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.1": {
-      "BCrypt-Official/0.1.109": {
-        "type": "package",
-        "compile": {
-          "lib/BCrypt.Net.dll": {}
-        },
-        "runtime": {
-          "lib/BCrypt.Net.dll": {}
-        }
-      },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "type": "package",
         "dependencies": {
@@ -4628,21 +4619,6 @@
     }
   },
   "libraries": {
-    "BCrypt-Official/0.1.109": {
-      "sha512": "4iTKqcCn1Eb3fsbbjhv9d9bwswCvEwXavwwo+XTrYAGCfP1YfVZGmRybKWLf2A6BDh+9bZn4zK6AnQaNcqtraA==",
-      "type": "package",
-      "path": "bcrypt-official/0.1.109",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "bcrypt-official.0.1.109.nupkg.sha512",
-        "bcrypt-official.nuspec",
-        "content/LICENSE.txt",
-        "lib/BCrypt.Net.XML",
-        "lib/BCrypt.Net.dll",
-        "lib/BCrypt.Net.pdb"
-      ]
-    },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "sha512": "owAlEIUZXWSnkK8Z1c+zR47A0X6ykF4XjbPok4lQKNuciUfHLGPd6QnI+rt/8KlQ17PmF+I4S3f+m+Qe4IvViw==",
       "type": "package",
@@ -12551,7 +12527,6 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
-      "BCrypt-Official >= 0.1.109",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0",
@@ -12599,10 +12574,6 @@
     "frameworks": {
       "netcoreapp2.1": {
         "dependencies": {
-          "BCrypt-Official": {
-            "target": "Package",
-            "version": "[0.1.109, )"
-          },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
             "target": "Package",
@@ -12631,17 +12602,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Le package 'BCrypt-Official 0.1.109' a été restauré en utilisant '.NETFramework,Version=v4.6.1' au lieu du framework cible du projet '.NETCoreApp,Version=v2.1'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
-      "libraryId": "BCrypt-Official",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.1"
-      ]
-    }
-  ]
+  }
 }
