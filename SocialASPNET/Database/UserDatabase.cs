@@ -120,7 +120,7 @@ namespace SocialASPNET.Database
         {
             User user = new User();
             SqlCommand command = new SqlCommand(
-                "SELECT username, url_image FROM users WHERE id = @id", Connection.Instance);
+                "SELECT username, url_image_profil FROM users WHERE id = @id", Connection.Instance);
             command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = id });
             Connection.Instance.Open();
             SqlDataReader reader = command.ExecuteReader();
@@ -128,7 +128,8 @@ namespace SocialASPNET.Database
             while (reader.Read())
             {
                 user.Username = reader.GetString(0);
-                user.UrlImgProfil = reader.GetString(1);
+                if(!reader.IsDBNull(1))
+                    user.UrlImgProfil = reader.GetString(1);
             }
 
             command.Dispose();
@@ -144,15 +145,20 @@ namespace SocialASPNET.Database
             command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = user.Id });
             Connection.Instance.Open();
             SqlDataReader reader = command.ExecuteReader();
-
+            List<int> subscriberIds = new List<int>();
             while (reader.Read())
             {
-                user.Subcribers.Add(GetUserById(reader.GetInt32(0)));
+                subscriberIds.Add(reader.GetInt32(1));
             }
 
             command.Dispose();
             reader.Close();
             Connection.Instance.Close();
+
+            foreach(int i in subscriberIds)
+            {
+                user.Subcribers.Add(GetUserById(i));
+            }
             return user;
         }
 
@@ -163,15 +169,19 @@ namespace SocialASPNET.Database
             command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = user.Id });
             Connection.Instance.Open();
             SqlDataReader reader = command.ExecuteReader();
-
+            List<int> subscriptionIds = new List<int>();
             while (reader.Read())
             {
-                user.Subscriptions.Add(GetUserById(reader.GetInt32(1)));
+                subscriptionIds.Add(reader.GetInt32(2));
             }
 
             command.Dispose();
             reader.Close();
             Connection.Instance.Close();
+            foreach(int i in subscriptionIds)
+            {
+                user.Subscriptions.Add(GetUserById(i));
+            }
             return user;
         }
 
@@ -195,6 +205,61 @@ namespace SocialASPNET.Database
             reader.Close();
             Connection.Instance.Close();
             return user;
+        }
+
+        public void Subscribe(Subscribe s)
+        {
+            SqlCommand command = new SqlCommand(
+                "INSERT INTO abonnement (id_abonne, id_abonnement) VALUES (@idAbonne, @idAbonnement)", 
+                Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@idAbonne", SqlDbType.Int) { Value = s.IdSubscriber });
+            command.Parameters.Add(new SqlParameter("@idAbonnement", SqlDbType.Int) { Value = s.IdSubscription });
+            Connection.Instance.Open();
+
+            command.ExecuteNonQuery();
+            command.Dispose();
+
+            Connection.Instance.Close();
+        }
+
+        public void Unsubscribe(Subscribe s)
+        {
+            SqlCommand command = new SqlCommand(
+                "DELETE FROM abonnement WHERE id_abonne = @idAbonne AND id_abonnement = @idAbonnement", 
+                Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@idAbonne", SqlDbType.Int) { Value = s.IdSubscriber });
+            command.Parameters.Add(new SqlParameter("@idAbonnement", SqlDbType.Int) { Value = s.IdSubscription });
+            Connection.Instance.Open();
+
+            command.ExecuteNonQuery();
+            command.Dispose();
+
+            Connection.Instance.Close();
+        }
+
+        public bool VerifSubscribed(Subscribe s)
+        {
+            bool subscribed = false;
+            SqlCommand command = new SqlCommand(
+                "SELECT * FROM abonnement WHERE id_abonne = @idAbonne AND id_abonnement = @idAbonnement", 
+                Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@idAbonne", SqlDbType.Int) { Value = s.IdSubscriber });
+            command.Parameters.Add(new SqlParameter("@idAbonnement", SqlDbType.Int) { Value = s.IdSubscription });
+            Connection.Instance.Open();
+
+            SqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                subscribed = true;
+                break;
+            }
+
+            command.Dispose();
+            reader.Close();
+            Connection.Instance.Close();
+
+            return subscribed;
         }
     }
 }

@@ -91,14 +91,42 @@ namespace SocialASPNET.Controllers
         {
             User user = new User();
             user = userDatabase.GetUserByUsername(username);
-            user = userDatabase.GetUserSubscriber(user);
-            user = userDatabase.GetUserSubscriptions(user);
+            if(user.Id != 0)
+            {
+                user = userDatabase.GetUserSubscriber(user);
+                user = userDatabase.GetUserSubscriptions(user);
+            }
+            
             return new JsonResult(user);
         }
 
         [HttpPost][EnableCors("AllowMyOrigin")]
+        [Route("subscribe")]
+        public JsonResult Subscribe(Subscribe s)
+        {
+            userDatabase.Subscribe(s);
+            return new JsonResult("Subscribe success");
+        }
+
+        [HttpPost][EnableCors("AllowMyOrigin")]
+        [Route("unsubscribe")]
+        public JsonResult Unsubscribe(Subscribe s)
+        {
+            userDatabase.Unsubscribe(s);
+            return new JsonResult("Unsubscribe success");
+        }
+
+        [HttpPost]
+        [EnableCors("AllowMyOrigin")]
+        [Route("verifSubscribed")]
+        public JsonResult VerifSubscribed(Subscribe s)
+        {
+            return new JsonResult(userDatabase.VerifSubscribed(s));
+        }
+
+        [HttpPost][EnableCors("AllowMyOrigin")]
         [Route("upload")]
-        public JsonResult Upload(IFormFile[] files)
+        public JsonResult Upload(IFormFile[] files, int id)
         {
             return new JsonResult("test");
         }
