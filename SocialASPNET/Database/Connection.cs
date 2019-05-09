@@ -25,5 +25,7 @@ namespace SocialASPNET.Database
                 }
             }
         }
+
+        private Connection() { }
     }
 }

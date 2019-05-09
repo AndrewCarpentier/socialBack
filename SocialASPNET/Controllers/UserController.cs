@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
@@ -19,8 +20,7 @@ namespace SocialASPNET.Controllers
         private UserDatabase userDatabase = new UserDatabase();
         private PasswordEncoder passwordEncoder = new PasswordEncoder();
 
-        [HttpPost][EnableCors("AllowMyOrigin")]
-        [Route("register")]
+        [Route("register"), HttpPost, EnableCors("AllowMyOrigin")]
         public JsonResult Register(User user)
         {
             RegisterModelAndView result = new RegisterModelAndView();
@@ -58,8 +58,7 @@ namespace SocialASPNET.Controllers
             return new JsonResult(result);
         }
 
-        [HttpPost][EnableCors("AllowMyOrigin")]
-        [Route("login")]
+        [Route("login"), HttpPost, EnableCors("AllowMyOrigin")]
         public JsonResult Login(User user)
         {
             LoginModelAndView result = new LoginModelAndView();
@@ -85,8 +84,7 @@ namespace SocialASPNET.Controllers
             return new JsonResult(result);
         }
 
-        [HttpGet][EnableCors("AllowMyOrigin")]
-        [Route("getusername")]
+        [Route("getusername"), HttpGet, EnableCors("AllowMyOrigin")]
         public JsonResult GetUsername(string username)
         {
             User user = new User();
@@ -100,35 +98,45 @@ namespace SocialASPNET.Controllers
             return new JsonResult(user);
         }
 
-        [HttpPost][EnableCors("AllowMyOrigin")]
-        [Route("subscribe")]
+        [Route("subscribe"), HttpPost, EnableCors("AllowMyOrigin")]
         public JsonResult Subscribe(Subscribe s)
         {
             userDatabase.Subscribe(s);
             return new JsonResult("Subscribe success");
         }
 
-        [HttpPost][EnableCors("AllowMyOrigin")]
-        [Route("unsubscribe")]
+        [Route("unsubscribe"), HttpPost, EnableCors("AllowMyOrigin")]
         public JsonResult Unsubscribe(Subscribe s)
         {
             userDatabase.Unsubscribe(s);
             return new JsonResult("Unsubscribe success");
         }
 
-        [HttpPost]
-        [EnableCors("AllowMyOrigin")]
-        [Route("verifSubscribed")]
+        [Route("verifSubscribed"), HttpPost, EnableCors("AllowMyOrigin")]
         public JsonResult VerifSubscribed(Subscribe s)
         {
             return new JsonResult(userDatabase.VerifSubscribed(s));
         }
 
-        [HttpPost][EnableCors("AllowMyOrigin")]
-        [Route("upload")]
+        [Route("upload"), HttpPost, EnableCors("AllowMyOrigin")]
         public JsonResult Upload(IFormFile[] files, int id)
         {
             return new JsonResult("test");
         }
+
+        [Route("uploadProfilImg"), HttpPost, EnableCors("AllowMyOrigin")]
+        public JsonResult UploadProfilImg(IFormFile file, int id)
+        {
+            if(file != null && file.Length != 0)
+            {
+                string fileName = $"{id}-{file.FileName}";
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
+                var stream = new FileStream(path, FileMode.Create);
+                userDatabase.UploadProfilImg($"{fileName}", id);
+            }
+
+            return new JsonResult("");
+        }
+
     }
 }

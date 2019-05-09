@@ -1,4 +1,5 @@
-﻿using SocialASPNET.Models;
+﻿using Microsoft.AspNetCore.Http;
+using SocialASPNET.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -260,6 +261,19 @@ namespace SocialASPNET.Database
             Connection.Instance.Close();
 
             return subscribed;
+        }
+
+        public void UploadProfilImg(string url, int id) {
+            SqlCommand command = new SqlCommand(
+                "UPDATE users SET url_image_profil = @url WHERE id = @id", Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@url", url));
+            command.Parameters.Add(new SqlParameter("@id", id));
+            Connection.Instance.Open();
+
+            command.ExecuteNonQuery();
+
+            command.Dispose();
+            Connection.Instance.Close();
         }
     }
 }
