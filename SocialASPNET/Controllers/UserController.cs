@@ -118,25 +118,40 @@ namespace SocialASPNET.Controllers
             return new JsonResult(userDatabase.VerifSubscribed(s));
         }
 
-        [Route("upload"), HttpPost, EnableCors("AllowMyOrigin")]
-        public JsonResult Upload(IFormFile[] files, int id)
+        [Route("upload/{id}"), HttpPost, EnableCors("AllowMyOrigin")]
+        public JsonResult Upload(List<IFormFile> files, int id, string description)
         {
             return new JsonResult("test");
         }
 
         [Route("uploadProfilImg"), HttpPost, EnableCors("AllowMyOrigin")]
-        public JsonResult UploadProfilImg(IFormFile file, int id)
+        public async Task<JsonResult> UploadProfilImg(IFormFile file, int id)
         {
             if(file != null && file.Length != 0)
             {
                 string fileName = $"{id}-{file.FileName}";
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
                 var stream = new FileStream(path, FileMode.Create);
-                userDatabase.UploadProfilImg($"{fileName}", id);
+                await file.CopyToAsync(stream);
+                userDatabase.UploadProfilImg($"http://localhost:50255/api/user/img/{fileName}", id);
             }
 
             return new JsonResult("");
         }
+
+        [Route("img/{filename}"), HttpGet, EnableCors("AllowMyOrigin")]
+        public ActionResult Image(string filename)
+        {
+            var path = Path.Combine(@"~\img\" + filename);
+            return base.File(path, "image/jpeg");
+        }
+
+        //[Route("img"), HttpGet, EnableCors("AllowMyOrigin")]
+        //public IActionResult GetImage()
+        //{
+        //    var image = System.IO.File.OpenRead(@"~/img/test.jpg");
+        //    return File(image, "image/jpeg");
+        //}
 
     }
 }

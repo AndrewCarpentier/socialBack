@@ -20,5 +20,10 @@ namespace SocialASPNET.Models
         public List<string> Imgs { get => imgs; set => imgs = value; }
         public List<User> Likes { get => likes; set => likes = value; }
         public List<Comment> Comments { get => comments; set => comments = value; }
+
+        public Post()
+        {
+            date = DateTime.Now;
+        }
     }
 }

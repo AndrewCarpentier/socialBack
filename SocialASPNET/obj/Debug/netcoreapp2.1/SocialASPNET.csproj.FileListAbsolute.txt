@@ -26,3 +26,17 @@ C:\Users\Administrateur\Desktop\social\socialBack\SocialASPNET\obj\Debug\netcore
 C:\Users\Administrateur\Desktop\social\socialBack\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.RazorTargetAssemblyInfo.cache
 C:\Users\Administrateur\Desktop\social\socialBack\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.dll
 C:\Users\Administrateur\Desktop\social\socialBack\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.pdb
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.deps.json
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.runtimeconfig.json
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.runtimeconfig.dev.json
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.dll
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\bin\Debug\netcoreapp2.1\SocialASPNET.pdb
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.csprojAssemblyReference.cache
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.csproj.CoreCompileInputs.cache
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.RazorAssemblyInfo.cache
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.RazorAssemblyInfo.cs
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.AssemblyInfoInputs.cache
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.AssemblyInfo.cs
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.RazorTargetAssemblyInfo.cache
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.dll
+C:\Users\Andrew\Desktop\socialback\SocialASPNET\obj\Debug\netcoreapp2.1\SocialASPNET.pdb
