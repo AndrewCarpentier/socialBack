@@ -9,6 +9,7 @@ namespace SocialASPNET.Models
     {
         private int id;
         private string description;
+        private int idUser;
         private DateTime date;
         private List<string> imgs;
         private List<User> likes;
@@ -20,6 +21,7 @@ namespace SocialASPNET.Models
         public List<string> Imgs { get => imgs; set => imgs = value; }
         public List<User> Likes { get => likes; set => likes = value; }
         public List<Comment> Comments { get => comments; set => comments = value; }
+        public int IdUser { get => idUser; set => idUser = value; }
 
         public Post()
         {

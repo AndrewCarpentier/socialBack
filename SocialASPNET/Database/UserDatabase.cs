@@ -1,16 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SocialASPNET.ModelAndViews;
 using SocialASPNET.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SocialASPNET.Database
 {
     public class UserDatabase
     {
+        private static Mutex uploadPostMutex = new Mutex();
+
         public void Register(User user)
         {
             SqlCommand command = new SqlCommand(
@@ -274,6 +279,55 @@ namespace SocialASPNET.Database
 
             command.Dispose();
             Connection.Instance.Close();
+        }
+
+        public void UploadPost(Post p, List<IFormFile> files)
+        {
+            SqlCommand command = new SqlCommand(
+                "INSERT INTO post (description, date, id_user) OUTPUT INSERTED.ID VALUES (@de,@da,@id)", 
+                Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@de", p.Description));
+            command.Parameters.Add(new SqlParameter("@da", p.Date));
+            command.Parameters.Add(new SqlParameter("@id", p.IdUser));
+            Connection.Instance.Open();
+            int id = (int)command.ExecuteScalar();
+            command.Dispose();
+            Connection.Instance.Close();
+
+            foreach(IFormFile file in files)
+            {
+                new Thread(UploadPostImg).Start(new PostUploadModelAndView()
+                {
+                    File = file,
+                    IdPost = id
+                });
+            }
+        }
+
+        public void UploadPostImg(object o)
+        {
+            uploadPostMutex.WaitOne();
+            PostUploadModelAndView p = o as PostUploadModelAndView;
+            if (p.File != null && p.File.Length != 0)
+            {
+                string fileName = $"{p.IdPost}-{p.File.FileName}";
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
+                var stream = new FileStream(path, FileMode.Create);
+                p.File.CopyToAsync(stream);
+
+                SqlCommand command = new SqlCommand(
+                    "INSERT INTO post_img (id_post, url_image) VALUES (@i,@u)", Connection.Instance);
+                command.Parameters.Add(new SqlParameter("@i", p.IdPost));
+                command.Parameters.Add(new SqlParameter("@u", $"http://localhost:50255/api/user/img/{fileName}"));
+                Connection.Instance.Open();
+
+                command.ExecuteNonQuery();
+                command.Dispose();
+
+                Connection.Instance.Close();
+            }
+
+            uploadPostMutex.ReleaseMutex();
         }
     }
 }

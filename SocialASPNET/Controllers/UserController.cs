@@ -121,22 +121,31 @@ namespace SocialASPNET.Controllers
         [Route("upload/{id}"), HttpPost, EnableCors("AllowMyOrigin")]
         public JsonResult Upload(List<IFormFile> files, int id, string description)
         {
+            Post p = new Post()
+            {
+                Description = description,
+                IdUser = id
+            };
+
+            userDatabase.UploadPost(p, files);
+
             return new JsonResult("test");
         }
 
         [Route("uploadProfilImg"), HttpPost, EnableCors("AllowMyOrigin")]
         public async Task<JsonResult> UploadProfilImg(IFormFile file, int id)
         {
+            string fileName = "0";
             if(file != null && file.Length != 0)
             {
-                string fileName = $"{id}-{file.FileName}";
+                fileName = $"{id}-{file.FileName}";
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
                 var stream = new FileStream(path, FileMode.Create);
                 await file.CopyToAsync(stream);
                 userDatabase.UploadProfilImg($"http://localhost:50255/api/user/img/{fileName}", id);
             }
 
-            return new JsonResult("");
+            return new JsonResult($"http://localhost:50255/api/user/img/{fileName}");
         }
 
         [Route("img/{filename}"), HttpGet, EnableCors("AllowMyOrigin")]
