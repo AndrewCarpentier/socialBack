@@ -93,6 +93,7 @@ namespace SocialASPNET.Controllers
             {
                 user = userDatabase.GetUserSubscriber(user);
                 user = userDatabase.GetUserSubscriptions(user);
+                user = userDatabase.GetUserPost(user);
             }
             
             return new JsonResult(user);
