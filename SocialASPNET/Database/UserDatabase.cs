@@ -202,6 +202,7 @@ namespace SocialASPNET.Database
             while (reader.Read())
             {
                 Post p = new Post();
+                p.Id = reader.GetInt32(0);
                 p.Description = reader.GetString(1);
                 p.Date = reader.GetDateTime(2);
                 user.Posts.Add(p);
@@ -210,6 +211,73 @@ namespace SocialASPNET.Database
             command.Dispose();
             reader.Close();
             Connection.Instance.Close();
+
+            foreach (Post p in user.Posts)
+            {
+                List<User> likes = new List<User>();
+                List<Comment> comments = new List<Comment>();
+                List<string> imgs = new List<string>();
+
+                command = new SqlCommand("SELECT * FROM post_like WHERE id_post = @id", Connection.Instance);
+                command.Parameters.Add(new SqlParameter("@id", p.Id));
+                Connection.Instance.Open();
+
+                reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(2))
+                    {
+                        likes.Add(new User { Id = reader.GetInt32(2) });
+                    }
+                }
+
+                reader.Close();
+                command.Dispose();
+                Connection.Instance.Close();
+
+                command = new SqlCommand("SELECT * FROM comment WHERE id_post = @id", Connection.Instance);
+                command.Parameters.Add(new SqlParameter("@id", p.Id));
+                Connection.Instance.Open();
+
+                reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(0))
+                    {
+                        Comment c = new Comment()
+                        {
+                            Id = reader.GetInt32(0),
+                            User = new User { Id = reader.GetInt32(1) },
+                            Description = reader.GetString(3),
+                            Date = reader.GetDateTime(4)
+                        };
+                        comments.Add(c);
+                    }
+                }
+
+                reader.Close();
+                command.Dispose();
+                Connection.Instance.Close();
+
+                command = new SqlCommand("SELECT * FROM post_img WHERE id_post = @id", Connection.Instance);
+                command.Parameters.Add(new SqlParameter("@id", p.Id));
+                Connection.Instance.Open();
+
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    imgs.Add(reader.GetString(2));
+                }
+
+                Connection.Instance.Close();
+
+                p.Likes = likes;
+                p.Comments = comments;
+                p.Imgs = imgs;
+            }
+
             return user;
         }
 
