@@ -364,11 +364,16 @@ namespace SocialASPNET.Database
 
             foreach(IFormFile file in files)
             {
-                new Thread(UploadPostImg).Start(new PostUploadModelAndView()
+                Task.Run(() => UploadPostImg(new PostUploadModelAndView()
                 {
                     File = file,
                     IdPost = id
-                });
+                }));
+                //new Thread(UploadPostImg).Start(new PostUploadModelAndView()
+                //{
+                //    File = file,
+                //    IdPost = id
+                //});
             }
         }
 
