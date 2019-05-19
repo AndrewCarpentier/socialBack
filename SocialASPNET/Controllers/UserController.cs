@@ -122,6 +122,11 @@ namespace SocialASPNET.Controllers
         [Route("upload/{id}"), HttpPost, EnableCors("AllowMyOrigin")]
         public JsonResult Upload(List<IFormFile> files, int id, string description)
         {
+            if(description == "undefined")
+            {
+                description = "";
+            }
+
             Post p = new Post()
             {
                 Description = description,
@@ -154,6 +159,13 @@ namespace SocialASPNET.Controllers
         {
             var path = Path.Combine(@"~\img\" + filename);
             return base.File(path, "image/jpeg");
+        }
+
+        [Route("GetSubscriptionsPost/{idSubscriber}"), HttpGet, EnableCors("AllowMyOrigin")]
+        public JsonResult GetSubscriptionsPost(int idSubscriber)
+        {
+            
+            return new JsonResult(userDatabase.GetSubscriptionsPost(idSubscriber));
         }
 
         //[Route("img"), HttpGet, EnableCors("AllowMyOrigin")]

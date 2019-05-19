@@ -18,8 +18,8 @@ namespace SocialASPNET.Database
                 {
                     if (_instance == null)
                     {
-                        //_instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Andrew\source\repos\Social\social.mdf;Integrated Security=True;Connect Timeout=30");
-                        _instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Administrateur\Desktop\social\socialBack\social.mdf;Integrated Security=True;Connect Timeout=30");
+                        _instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Andrew\source\repos\Social\social.mdf;Integrated Security=True;Connect Timeout=30");
+                        //_instance = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Administrateur\Desktop\social\socialBack\social.mdf;Integrated Security=True;Connect Timeout=30");
                     }
                     return _instance;
                 }

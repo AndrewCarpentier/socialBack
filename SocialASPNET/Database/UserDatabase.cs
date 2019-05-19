@@ -194,7 +194,7 @@ namespace SocialASPNET.Database
         public User GetUserPost(User user)
         {
             SqlCommand command = new SqlCommand(
-                "SELECT * FROM post WHERE id_user = @id ", Connection.Instance);
+                "SELECT * FROM post WHERE id_user = @id ORDER BY date DESC", Connection.Instance);
             command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int) { Value = user.Id });
             Connection.Instance.Open();
             SqlDataReader reader = command.ExecuteReader();
@@ -205,6 +205,7 @@ namespace SocialASPNET.Database
                 p.Id = reader.GetInt32(0);
                 p.Description = reader.GetString(1);
                 p.Date = reader.GetDateTime(2);
+                p.IdUser = reader.GetInt32(3);
                 user.Posts.Add(p);
             }
 
@@ -401,6 +402,36 @@ namespace SocialASPNET.Database
             }
 
             uploadPostMutex.ReleaseMutex();
+        }
+
+        public List<Post> GetSubscriptionsPost(int idSubscriber)
+        {
+            List<Post> postsSubscription = new List<Post>();
+
+            List<int> ids = new List<int>();
+
+            SqlCommand command = new SqlCommand("SELECT * FROM abonnement WHERE id_abonne = @id", Connection.Instance);
+            command.Parameters.Add(new SqlParameter("@id", idSubscriber));
+            Connection.Instance.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                ids.Add(reader.GetInt32(2));
+            }
+            reader.Close();
+            command.Clone();
+            Connection.Instance.Close();
+
+            foreach(int id in ids)
+            {
+                List<Post> posts = GetUserPost(new User() { Id = id }).Posts;
+                foreach(Post p in posts)
+                {
+                    postsSubscription.Add(p);
+                }
+            }
+
+            return postsSubscription;
         }
     }
 }
